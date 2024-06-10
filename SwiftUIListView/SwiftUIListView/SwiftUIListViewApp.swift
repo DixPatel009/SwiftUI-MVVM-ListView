@@ -9,12 +9,13 @@ import SwiftUI
 
 @main
 struct SwiftUIListViewApp: App {
-    let persistenceController = PersistenceController.shared
+
+    @AppStorage("isDarkMode") private var isDarkMode = false
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            SplashScreen().preferredColorScheme(isDarkMode ? .dark : .light)
+                .environment(\.locale, .init(identifier: "en"))
         }
     }
 }
