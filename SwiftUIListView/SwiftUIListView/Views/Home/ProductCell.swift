@@ -17,7 +17,10 @@ struct ProductCell: View {
             Color.white
             
             VStack(alignment: .leading) {
-                ProductRemoteImage(urlString: product.image ?? "").cornerRadius(8.0).frame(maxWidth: 180, maxHeight: 180).aspectRatio(contentMode: .fit)
+                ProductRemoteImage(urlString: product.image ?? "")
+                    .cornerRadius(8.0)
+                    .frame(maxWidth: 180, maxHeight: 180)
+                    .aspectRatio(contentMode: .fit)
                 
                 Text(product.product_name ?? "")
                     .font(.subheadline).bold()
@@ -26,16 +29,19 @@ struct ProductCell: View {
                     .font(.caption)
                 
                 HStack {
-                    Text("₹\(product.price?.clean ?? "0.0")").bold()
+                    Text("₹\(product.price?.clean ?? "0.0")")
+                        .font(.caption).bold()
                     
                     Text("+ \(product.tax?.clean ?? "")% tax")
                         .font(.caption)
-                    
                 }
                 
-            }.padding(.horizontal, 8).padding(.vertical, 8)
+            }
+            .padding(.horizontal, 8).padding(.vertical, 8)
             
-        }.cornerRadius(8.0).frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
+        }
+        .cornerRadius(8.0)
+        .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, minHeight: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxHeight: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
     }
     
 }

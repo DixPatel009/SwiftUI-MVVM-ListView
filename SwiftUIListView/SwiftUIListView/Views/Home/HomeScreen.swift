@@ -12,12 +12,13 @@ struct HomeScreen: View {
     //MARK:- PROPERTIES
     @StateObject var productsVM = ProductListViewModel()
     @State private var searchText: String = ""
+    @State private var isAddProduct: Bool = false
     
     var filteredProducts: [Product] {
         if searchText.count == 0 {
-            return productsVM.Products
+            return productsVM.products
         } else {
-            return productsVM.Products.filter { $0.product_name?.lowercased().contains(searchText.lowercased()) ?? false}
+            return productsVM.products.filter { $0.product_name?.lowercased().contains(searchText.lowercased()) ?? false}
         }
     }
     
@@ -25,7 +26,7 @@ struct HomeScreen: View {
     
     //MARK:- BODY
     var body: some View {
-        NavigationStack{
+        NavigationView{
             ZStack(alignment: .bottomTrailing){
                 
                 ZStack(alignment: .center) {
@@ -49,23 +50,34 @@ struct HomeScreen: View {
                         .isHidden(!productsVM.isLoading)
                     
                 }
-                                
-                Button {
-                    // Action
-                } label: {
-                    Image(systemName: "plus")
-                        .font(.title.weight(.semibold))
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .clipShape(Circle())
-                        .shadow(radius: 4, x: 0, y: 4)
-                    
-                }.padding()
-                                
+                
+                NavigationLink(destination: AddProductScreen(productList: $productsVM.products), isActive: $isAddProduct) {
+                    Button {
+                        self.isAddProduct = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .font(.title.weight(.semibold))
+                            .padding()
+                            .background(Color.red)
+                            .foregroundColor(.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 4, x: 0, y: 4)
+                        
+                    }.padding()
+                }
+            }.onAppear(){
+                productsVM.fetchProducts()
+            }.alert(
+                productsVM.alertItem?.title ?? "",
+                isPresented: $productsVM.isError,
+                presenting: productsVM.alertItem?.message ?? ""
+            ) { message in
+                Button("Ok") {
+                }
+            } message: { message in
+                Text(productsVM.alertItem?.message ?? "")
             }
         }
-        
     }
 }
 

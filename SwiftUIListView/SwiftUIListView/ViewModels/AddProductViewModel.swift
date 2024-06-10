@@ -1,5 +1,5 @@
 //
-//  ProductListViewModel.swift
+//  AddProductViewModel.swift
 //  SwiftUIListView
 //
 //  Created by Dixit Mac New on 10/06/24.
@@ -7,30 +7,27 @@
 
 import Foundation
 
-class ProductListViewModel: ObservableObject {
+class AddProductViewModel: ObservableObject {
     
-    @Published var products: [Product] = []
     @Published var isLoading = false
     @Published var alertItem: AlertItem?
-    @Published var productTypes: [String] = []
-    @Published var isError = false
+    @Published var successResponse = AddProductSuccess()
+    @Published var isShowAlert = false
     
     init() {
-        //fetchProducts()
+        
     }
     
     //MARK: - API call to get product list
-    func fetchProducts() {
-        
+    func addProducts(params: [String: Any]) {
         self.isLoading = true
-        self.products = []
-        
-        APIService.shared.getProductList(endPoint: APIEndpoint.getProducts) { [unowned self] result in
+        APIService.shared.uploadProductData(param: params, endPoint: APIEndpoint.addProduct) { [unowned self] result in
             DispatchQueue.main.async {
                 self.isLoading = false
                 switch result{
-                case .success(let items):
-                    self.products = items
+                case .success(let item):
+                    self.successResponse = item
+                    self.alertItem = AlertItem(title: "Success", message: item.message ?? "Save Successfully")
                 case .failure(let error):
                     switch error {
                     case .invalidData:
@@ -45,11 +42,9 @@ class ProductListViewModel: ObservableObject {
                     case .unableToComplete:
                         self.alertItem = AlertContext.unableToComplete
                     }
-                    self.isError = true
                 }
+                self.isShowAlert = true
             }
         }
-        
     }
-    
 }
