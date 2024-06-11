@@ -25,6 +25,8 @@ struct AddProductScreen: View {
     @State private var productPriceError: String?
     @State private var productTaxError: String?
     
+    @EnvironmentObject var productViewModel: ProductListViewModel
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -35,7 +37,8 @@ struct AddProductScreen: View {
                     Image(uiImage: self.image)
                         .resizable()
                         .scaledToFit()
-                        .background(Color.gray).frame(width: 160.0, height: 160.0).onTapGesture {
+                        .tint(Color.black)
+                        .background(Color.gray.opacity(0.3)).frame(width: 160.0, height: 160.0).onTapGesture {
                             self.isShowPhotoLibrary = true
                         }.cornerRadius(8.0)
                         .padding(.bottom, 8.0)
@@ -48,7 +51,7 @@ struct AddProductScreen: View {
                     
                     CustomTextFiled(placeHolder: "Enter Selling Price", keyboardType: UIKeyboardType.decimalPad, error: productPriceError, text: $productPrice)
                     
-                    CustomTextFiled(placeHolder: "Enter Tax Rate", keyboardType: UIKeyboardType.decimalPad, error: productTaxError, text: $productTax)
+                    CustomTextFiled(placeHolder: "Enter Tax Rate (%)", keyboardType: UIKeyboardType.decimalPad, error: productTaxError, text: $productTax)
                     
                     CustomButton(title: "Add Product") {
                         self.submitProduct()
@@ -59,7 +62,7 @@ struct AddProductScreen: View {
                 }.padding().sheet(isPresented: $isShowPhotoLibrary) {
                     ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
                 }
-            }
+            }.scrollDismissesKeyboard(.immediately)
             
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
@@ -75,6 +78,7 @@ struct AddProductScreen: View {
         ) { message in
             Button("Done") {
                 if(addProductVM.successResponse.success != nil){
+                    productViewModel.fetchProducts()
                     dismiss()
                 }
             }
@@ -142,6 +146,7 @@ struct AddProductScreen: View {
         if image != UIImage(named: "ic_add_image.png")! {
             param["files[]"] = image
         }
+        
         
         addProductVM.addProducts(params: param)
         

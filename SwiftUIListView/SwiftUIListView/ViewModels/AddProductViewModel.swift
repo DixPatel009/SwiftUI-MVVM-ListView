@@ -18,7 +18,7 @@ class AddProductViewModel: ObservableObject {
         
     }
     
-    //MARK: - API call to get product list
+    //MARK: - API call to add product
     func addProducts(params: [String: Any]) {
         self.isLoading = true
         APIService.shared.uploadProductData(param: params, endPoint: APIEndpoint.addProduct) { [unowned self] result in

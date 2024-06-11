@@ -19,15 +19,15 @@ class SelectProductTypeViewModel: ObservableObject {
     
     func filterOnlyProductType(products: [Product]){
         
-        var productTypeTempArray = Set<String>()
+        var productTypeTempArray: [String] = []
         
         for i in products {
-            if let type = i.product_type {
-                productTypeTempArray.insert(type)
+            if let type = i.product_type, !productTypeTempArray.contains(type) {
+                productTypeTempArray.append(type)
             }
         }
         
-        productTypes = [String](productTypeTempArray)
+        productTypes = productTypeTempArray
     }
     
 }

@@ -116,10 +116,11 @@ class APIService: NSObject {
                 body.append(imageData)
                 body.append("\r\n")
                 
-                body.append("--\(boundary)--\r\n")
             }
             
         }
+        
+        body.append("--\(boundary)--\r\n")
         
         return body
     }

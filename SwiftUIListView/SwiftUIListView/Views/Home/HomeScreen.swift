@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeScreen: View {
     
     //MARK:- PROPERTIES
-    @StateObject var productsVM = ProductListViewModel()
+    @StateObject var productsVM = ProductListViewModel(isLoad: true)
     @State private var searchText: String = ""
     @State private var isAddProduct: Bool = false
     
@@ -51,7 +51,7 @@ struct HomeScreen: View {
                     
                 }
                 
-                NavigationLink(destination: AddProductScreen(productList: $productsVM.products), isActive: $isAddProduct) {
+                NavigationLink(destination: AddProductScreen(productList: $productsVM.products).environmentObject(productsVM), isActive: $isAddProduct) {
                     Button {
                         self.isAddProduct = true
                     } label: {
@@ -66,7 +66,7 @@ struct HomeScreen: View {
                     }.padding()
                 }
             }.onAppear(){
-                productsVM.fetchProducts()
+                //productsVM.fetchProducts()
             }.alert(
                 productsVM.alertItem?.title ?? "",
                 isPresented: $productsVM.isError,

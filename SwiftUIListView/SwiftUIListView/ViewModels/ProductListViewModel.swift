@@ -15,12 +15,16 @@ class ProductListViewModel: ObservableObject {
     @Published var productTypes: [String] = []
     @Published var isError = false
     
-    init() {
-        //fetchProducts()
+    init(isLoad: Bool) {
+        if isLoad {
+            fetchProducts()
+        }
     }
     
     //MARK: - API call to get product list
     func fetchProducts() {
+        
+        print("Fetch Products Called")
         
         self.isLoading = true
         self.products = []
