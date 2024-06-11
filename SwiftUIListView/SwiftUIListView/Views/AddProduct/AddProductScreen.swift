@@ -44,7 +44,7 @@ struct AddProductScreen: View {
                         .padding(.bottom, 8.0)
                     
                     NavigationLink(destination: SelectProductType(productList: $productList).environmentObject(productTypeVM)){
-                        CustomTextFiled(placeHolder: "Select Product Type", error: productTypeError ,text: $productTypeVM.selectedProductType)
+                        CustomTextFiled(placeHolder: "Select Product Type", error: productTypeError, isShowSelectionIcon: true, text: $productTypeVM.selectedProductType)
                     }
                     
                     CustomTextFiled(placeHolder: "Enter Product Name", error: productNameError, text: $productName)
@@ -65,6 +65,7 @@ struct AddProductScreen: View {
             }.scrollDismissesKeyboard(.immediately)
             
             ProgressView()
+                .scaleEffect(4)
                 .progressViewStyle(CircularProgressViewStyle())
                 .disabled(true)
                 .isHidden(!addProductVM.isLoading)
@@ -91,7 +92,7 @@ struct AddProductScreen: View {
         
         var isValid = true
         
-        // Validate Product Name
+        // Validate Product Type
         if (productTypeVM.selectedProductType.isEmpty) || (productTypeVM.selectedProductType == "") {
             productTypeError = "Please Select Product type"
             isValid = false
@@ -118,7 +119,7 @@ struct AddProductScreen: View {
             productPriceError = nil
         }
         
-        // Validate Product Price
+        // Validate Product Tax
         if productTax.isEmpty {
             productTaxError = "Please Enter Product Tax"
             isValid = false

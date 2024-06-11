@@ -45,6 +45,7 @@ struct HomeScreen: View {
                     .searchable(text: $searchText).scrollDismissesKeyboard(.immediately)
                     
                     ProgressView()
+                        .scaleEffect(4)
                         .progressViewStyle(CircularProgressViewStyle())
                         .disabled(true)
                         .isHidden(!productsVM.isLoading)
