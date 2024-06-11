@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-
 struct ProductCell: View {
 
+    //MARK:- PROPERTIES
     let product: Product
     
+    //MARK:- BODY
     var body: some View {
         ZStack{
             Color.white

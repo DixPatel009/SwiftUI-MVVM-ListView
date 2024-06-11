@@ -10,8 +10,10 @@ import SwiftUI
 @main
 struct SwiftUIListViewApp: App {
 
-    @AppStorage("isDarkMode") private var isDarkMode = false
+    //MARK:- PROPERTIES
+    @AppStorage("isDarkMode") private var isDarkMode = false // Set Application Appearance Mode
 
+    //MARK:- BODY
     var body: some Scene {
         WindowGroup {
             SplashScreen().preferredColorScheme(isDarkMode ? .dark : .light)

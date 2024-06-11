@@ -15,20 +15,22 @@ struct AddProductScreen: View {
     @StateObject var productTypeVM = SelectProductTypeViewModel()
     @StateObject var addProductVM = AddProductViewModel()
     
+    //For get and set data
     @State private var productName = ""
     @State private var productPrice = ""
     @State private var productTax = ""
     @State private var image = UIImage(named: "ic_add_image.png")!
     
+    //For Error Handler
     @State private var productNameError: String?
     @State private var productTypeError: String?
     @State private var productPriceError: String?
     @State private var productTaxError: String?
     
     @EnvironmentObject var productViewModel: ProductListViewModel
-    
     @Environment(\.dismiss) var dismiss
     
+    //MARK:- BODY
     var body: some View {
         
         ZStack(alignment: .center) {
@@ -59,11 +61,12 @@ struct AddProductScreen: View {
                     
                     Spacer()
                     
-                }.padding().sheet(isPresented: $isShowPhotoLibrary) {
+                }.padding().sheet(isPresented: $isShowPhotoLibrary) { //show image picker
                     ImagePicker(sourceType: .photoLibrary, selectedImage: $image)
                 }
             }.scrollDismissesKeyboard(.immediately)
             
+            //show progress view
             ProgressView()
                 .scaleEffect(4)
                 .progressViewStyle(CircularProgressViewStyle())
@@ -72,7 +75,7 @@ struct AddProductScreen: View {
         }
         .navigationTitle("Add Product")
         .navigationBarTitleDisplayMode(.inline)
-        .alert(
+        .alert( //show error and success alert
             addProductVM.alertItem?.title ?? "Success",
             isPresented: $addProductVM.isShowAlert,
             presenting: addProductVM.alertItem?.message
@@ -86,8 +89,10 @@ struct AddProductScreen: View {
         } message: { message in
             Text(addProductVM.alertItem?.message ?? "Save Successfully")
         }
+        
     }
     
+    //Click on Submit Button Validate All Filed
     func submitProduct() {
         
         var isValid = true
@@ -137,6 +142,7 @@ struct AddProductScreen: View {
         
     }
     
+    //Create Request Parameters and API Calling
     func createParamForAPI(){
         
         var param: [String: Any] = ["product_type": productTypeVM.selectedProductType,
@@ -148,9 +154,7 @@ struct AddProductScreen: View {
             param["files[]"] = image
         }
         
-        
         addProductVM.addProducts(params: param)
-        
     }
     
 }

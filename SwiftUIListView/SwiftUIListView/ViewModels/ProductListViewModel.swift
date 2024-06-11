@@ -9,6 +9,7 @@ import Foundation
 
 class ProductListViewModel: ObservableObject {
     
+    //MARK:- PROPERTIES
     @Published var products: [Product] = []
     @Published var isLoading = false
     @Published var alertItem: AlertItem?
@@ -24,12 +25,10 @@ class ProductListViewModel: ObservableObject {
     //MARK: - API call to get product list
     func fetchProducts() {
         
-        print("Fetch Products Called")
-        
         self.isLoading = true
         self.products = []
         
-        APIService.shared.getProductList(endPoint: APIEndpoint.getProducts) { [unowned self] result in
+        APIService.shared.getRequest(endPoint: APIEndpoint.getProducts) { [unowned self] result in
             DispatchQueue.main.async {
                 self.isLoading = false
                 switch result{

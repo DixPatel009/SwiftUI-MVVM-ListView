@@ -10,12 +10,14 @@ import UIKit
 
 class APIService: NSObject {
     
+    //MARK:- PROPERTIES
     static let shared = APIService()
     private let cache = NSCache<NSString, UIImage>() //store image in cache file for not call api every time
     
     private override init(){}
     
-    func getProductList(endPoint: APIEndpoint ,completion : @escaping (Result<[Product],APError>) -> ()){
+    //MARK:- Call GET Request
+    func getRequest(endPoint: APIEndpoint ,completion : @escaping (Result<[Product],APError>) -> ()){
         
         guard let url = endPoint.url else {
             completion(.failure(.invalidURL))
@@ -49,7 +51,8 @@ class APIService: NSObject {
         
     }
     
-    func uploadProductData(param: [String: Any], endPoint: APIEndpoint ,completion: @escaping (Result<AddProductSuccess,APError>) -> ()){
+    //MARK:- Call Multipart Form Data (POST) Request
+    func multipartFormDataRequest(param: [String: Any], endPoint: APIEndpoint ,completion: @escaping (Result<AddProductSuccess,APError>) -> ()){
         guard let url = endPoint.url else {
             completion(.failure(.invalidURL))
             return
@@ -93,6 +96,7 @@ class APIService: NSObject {
         }.resume()
     }
     
+    //MARK:- Create Dynamic Multipart Form Data (POST) Request Body
     func createMultipartBody(parameters: [String: Any], boundary: String) -> Data {
         var body = Data()
         
@@ -125,6 +129,7 @@ class APIService: NSObject {
         return body
     }
     
+    //MARK:- Download Image From URL And Manage With Cache
     func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
         
         let cacheKey = NSString(string: urlString)
@@ -151,4 +156,5 @@ class APIService: NSObject {
         
         task.resume()
     }
+    
 }

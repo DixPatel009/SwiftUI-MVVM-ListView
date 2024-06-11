@@ -7,9 +7,11 @@
 
 import Foundation
 
+//Network Request Base URL
 private let baseURL = URL(string: "https://app.getswipe.in/api/public/")
 
-enum APIEndpoint: Endpoint {    
+//Network Request End Point
+enum APIEndpoint: Endpoint {
     
     var url: URL? {
         return URL(string: self.path, relativeTo: baseURL)

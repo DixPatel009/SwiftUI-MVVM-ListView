@@ -11,10 +11,11 @@ struct SelectProductType: View {
     
     //MARK:- PROPERTIES
     @Binding var productList: [Product]
-    @EnvironmentObject var productTypeVM: SelectProductTypeViewModel
     
+    @EnvironmentObject var productTypeVM: SelectProductTypeViewModel
     @Environment(\.dismiss) var dismiss
     
+    //MARK:- BODY
     var body: some View {
         List(productTypeVM.productTypes, id: \.self) { list in
             Button(action: {

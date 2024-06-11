@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+//Create Custom Comman Textfiled
 struct CustomTextFiled: View {
     
+    //MARK:- PROPERTIES
     let placeHolder: String
     var keyboardType: UIKeyboardType = .default
     var error: String?
@@ -16,6 +18,7 @@ struct CustomTextFiled: View {
     
     @Binding var text: String
     
+    //MARK:- BODY
     var body: some View {
         VStack(alignment: .leading) {
             ZStack(alignment: .center) {
@@ -26,6 +29,7 @@ struct CustomTextFiled: View {
                     .keyboardType(keyboardType)
                     .padding(.bottom, (error != nil ) ? 0.0 : 8.0)
                 
+                //For Selection Icon
                 if (isShowSelectionIcon){
                     HStack {
                         Spacer()
@@ -39,6 +43,7 @@ struct CustomTextFiled: View {
                 
             }
             
+            //Show error
             if let error = error {
                 ErrorView(error: error).padding(.bottom, 8.0)
             }
@@ -48,6 +53,7 @@ struct CustomTextFiled: View {
     }
 }
 
+//Create Custom Textfiled Style
 struct OutlinedTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration

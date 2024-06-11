@@ -7,10 +7,13 @@
 
 import SwiftUI
 
+//Create Custom Comman ErrorView
 struct ErrorView: View {
     
+    //MARK:- PROPERTIES
     var error: String
     
+    //MARK:- BODY
     var body: some View {
         Text(error)
             .foregroundColor(.red)

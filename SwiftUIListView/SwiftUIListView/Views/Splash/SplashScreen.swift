@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct SplashScreen: View {
+    
+    //MARK:- PROPERTIES
     @State var isActive:Bool = false
     
+    //MARK:- BODY
     var body: some View {
         if self.isActive {
-            HomeScreen()
+            ProductList()
         } else {
             VStack(alignment: HorizontalAlignment.center, spacing: 20) {
                 Image(uiImage: UIImage(named: "ic_splash_logo.png")!)

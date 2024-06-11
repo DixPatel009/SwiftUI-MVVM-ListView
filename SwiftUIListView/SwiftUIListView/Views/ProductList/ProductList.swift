@@ -1,5 +1,5 @@
 //
-//  HomeScreen.swift
+//  ProductList.swift
 //  SwiftUIListView
 //
 //  Created by Dixit Mac New on 10/06/24.
@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct HomeScreen: View {
+struct ProductList: View {
     
     //MARK:- PROPERTIES
     @StateObject var productsVM = ProductListViewModel(isLoad: true)
     @State private var searchText: String = ""
     @State private var isAddProduct: Bool = false
     
+    //filter product based on search
     var filteredProducts: [Product] {
         if searchText.count == 0 {
             return productsVM.products
@@ -38,11 +39,12 @@ struct HomeScreen: View {
                         }.padding(.horizontal, 16)
                     }
                     .background(Color(uiColor: .systemGray5))
-                    .refreshable {
+                    .refreshable { //Pull to refresh
                         productsVM.fetchProducts()
                     }
                     .navigationTitle("Products")
-                    .searchable(text: $searchText).scrollDismissesKeyboard(.immediately)
+                    .searchable(text: $searchText)
+                    .scrollDismissesKeyboard(.immediately)
                     
                     ProgressView()
                         .scaleEffect(4)
@@ -52,6 +54,7 @@ struct HomeScreen: View {
                     
                 }
                 
+                //Floating Action Button For Add Product
                 NavigationLink(destination: AddProductScreen(productList: $productsVM.products).environmentObject(productsVM), isActive: $isAddProduct) {
                     Button {
                         self.isAddProduct = true
@@ -68,7 +71,7 @@ struct HomeScreen: View {
                 }
             }.onAppear(){
                 //productsVM.fetchProducts()
-            }.alert(
+            }.alert( //Show popup for error
                 productsVM.alertItem?.title ?? "",
                 isPresented: $productsVM.isError,
                 presenting: productsVM.alertItem?.message ?? ""
@@ -83,5 +86,5 @@ struct HomeScreen: View {
 }
 
 #Preview {
-    HomeScreen()
+    ProductList()
 }

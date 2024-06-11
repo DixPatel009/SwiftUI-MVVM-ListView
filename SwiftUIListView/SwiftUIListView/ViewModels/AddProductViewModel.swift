@@ -9,6 +9,7 @@ import Foundation
 
 class AddProductViewModel: ObservableObject {
     
+    //MARK:- PROPERTIES
     @Published var isLoading = false
     @Published var alertItem: AlertItem?
     @Published var successResponse = AddProductSuccess()
@@ -21,7 +22,7 @@ class AddProductViewModel: ObservableObject {
     //MARK: - API call to add product
     func addProducts(params: [String: Any]) {
         self.isLoading = true
-        APIService.shared.uploadProductData(param: params, endPoint: APIEndpoint.addProduct) { [unowned self] result in
+        APIService.shared.multipartFormDataRequest(param: params, endPoint: APIEndpoint.addProduct) { [unowned self] result in
             DispatchQueue.main.async {
                 self.isLoading = false
                 switch result{

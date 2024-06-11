@@ -7,8 +7,7 @@
 
 import Foundation
 
-
-// MARK: - EmployeeData
+// MARK: - Add Product Success Data
 struct AddProductSuccess: Codable {
     var message: String?
     var product_id: Int?
